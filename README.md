@@ -1,5 +1,7 @@
 *Fork info*
 
+- this is a fork of 1.3.x branch for 
+
 I've bluntly removed `REQUEST_INSTALL_PACKAGES` permission, since Google removed all apps from Google Store having this feature enabled. 
 
 =========================================================
@@ -9,8 +11,7 @@ I've bluntly removed `REQUEST_INSTALL_PACKAGES` permission, since Google removed
 -        </config-file>
 ```
 
-
-*Please be aware that this application / sample is provided as-is for demonstration purposes without any guarantee of support*
+*This plugin is provided without guarantee or warranty*
 =========================================================
 
 [![npm version](http://img.shields.io/npm/v/com-darryncampbell-cordova-plugin-intent.svg?style=flat-square)](https://npmjs.org/package/com-darryncampbell-cordova-plugin-intent "View this project on npm")
@@ -19,10 +20,6 @@ I've bluntly removed `REQUEST_INSTALL_PACKAGES` permission, since Google removed
 [![npm licence](http://img.shields.io/npm/l/com-darryncampbell-cordova-plugin-intent.svg?style=flat-square)](https://npmjs.org/package/com-darryncampbell-cordova-plugin-intent "View this project on npm")
 
 Note: this is the current underlying implementation for https://www.npmjs.com/package/@ionic-native/web-intent and https://ionicframework.com/docs/native/web-intent/
-
-# Android X support
-- For Android X Support please use version >= [2.x.x](https://www.npmjs.com/package/com-darryncampbell-cordova-plugin-intent/v/2.0.0) 
-- For Android Support Library please use version [1.3.x](https://www.npmjs.com/package/com-darryncampbell-cordova-plugin-intent/v/1.3.0)
 
 # Interaction with Camera Plugin
 If you are installing this plugin along with cordova-plugin-camera you **MUST install cordova-plugin-camera first.**
@@ -67,6 +64,10 @@ Registers a broadcast receiver for the specified filters
 
 The `intentShim.registerBroadcastReceiver` function registers a dynamic broadcast receiver for the specified list of filters and invokes the specified callback when any of those filters are received
 
+### Android Quirks
+
+Any existing broadcast receiver is unregistered when this method is called.  To register for multiple types of broadcast, specify multiple filters.
+
 ### Example
 
 Register a broadcast receiver for two filters:
@@ -85,13 +86,13 @@ Register a broadcast receiver for two filters:
 
 ## intentShim.unregisterBroadcastReceiver
 
-Unregisters any BroadcastRecivers
+Unregisters the broadcast receiver
 
     window.plugins.intentShim.unregisterBroadcastReceiver();
 
 ### Description
 
-The `intentShim.unregisterBroadcastReceiver` function unregisters all broadcast receivers registered with `intentShim.registerBroadcastReceiver(filters, callback);`.  No further broadcasts will be received for any registered filter after this call.
+The `intentShim.unregisterBroadcastReceiver` function unregisters the broadcast receiver registered with `intentShim.registerBroadcastReceiver(filters, callback);`.  No further broadcasts will be received for any registered filter after this call.
 
 ### Android Quirks
 
@@ -264,61 +265,6 @@ Pick an Android contact
         console.log("StartActivityForResult failure");
     });
 
-## intentShim.sendResult
-
-Assuming this application was started with `intentShim.startActivityForResult`, send a result back
-
-    window.plugins.intentShim.sendResult(args, callback);
-
-### Description
-
-The `intentShim.sendResult` function returns an `Activity.RESULT_OK` Intent to the activity that started this application, along with any extras that you want to send along (as `args.extras` object), and a `callback` function. It then calls Android Activity's finish() method, https://developer.android.com/reference/android/app/Activity.html#finish().
-
-### Android Quirks
-
-Both `args` and `callback` arguments have to be provided. If you do not need the functionality, send an empty object and an empty function
-
-    window.plugins.intentShim.sendResult({}, function() {});
-
-### Example
-
-    window.plugins.intentShim.sendResult(
-        {
-            extras: {
-                'Test Intent': 'Successfully sent',
-                'Test Intent int': 42,
-                'Test Intent bool': true,
-                'Test Intent double': parseFloat("142.12")
-            }
-        },
-        function() {
-        
-        }
-    );
-
-## intentShim.packageExists
-Returns a boolean indicating if a specific package is installed on the device.
-
-```js
-window.plugins.intentShim.packageExists(packageName, callback);
-```
-
-### Description
-
-The `intentShim.packageExists` function returns a boolean indicating if a specific [package](https://developer.android.com/studio/build/configure-app-module#set_the_application_id) is installed on the current device.
-
-### Example
-```js
-const packageName = 'com.android.contacts';
-
-window.plugins.intentShim.packageExists(packageName, (exists) => {
-    if (exists) {
-        console.log(`${packageName} exists!`);
-    } else {
-        console.log(`${packageName} does not exist...`);
-    }
-});
-```
 
 ## Predefined Constants
 
