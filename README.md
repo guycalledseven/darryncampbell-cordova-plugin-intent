@@ -1,3 +1,15 @@
+*Fork info*
+
+I've bluntly removed `REQUEST_INSTALL_PACKAGES` permission, since Google removed all apps from Google Store having this feature enabled. 
+
+=========================================================
+```
+-        <config-file target="AndroidManifest.xml" platform="android" parent="/manifest" mode="merge">
+-            <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+-        </config-file>
+```
+
+
 *Please be aware that this application / sample is provided as-is for demonstration purposes without any guarantee of support*
 =========================================================
 
